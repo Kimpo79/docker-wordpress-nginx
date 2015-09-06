@@ -7,6 +7,13 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   WORDPRESS_DB="wordpress"
   MYSQL_PASSWORD=`pwgen -c -n -1 12`
   WORDPRESS_PASSWORD=`pwgen -c -n -1 12`
+
+  ADMIN_EMAIL="hello@test12321.com"
+  ADMIN_USER_NAME="Admin"
+  ADMIN_NICENAME="admin"
+  ADMIN_DISPLAYNAME="Admin"
+  ADMIN_PASSWORD="1234567"
+
   #This is so the passwords show up in logs.
   echo mysql root password: $MYSQL_PASSWORD
   echo wordpress password: $WORDPRESS_PASSWORD
@@ -72,18 +79,14 @@ ENDL
   mysql -uroot -p$MYSQL_PASSWORD -e "CREATE DATABASE $WORDPRESS_DB; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WORDPRESS_PASSWORD'; FLUSH PRIVILEGES;"
   
   # Let's create an initial Admin user
-  ADMIN_EMAIL = 'hello@test12321.com'
-  ADMIN_USER_NAME = 'Admin'
-  ADMIN_NICENAME = 'admin'
-  ADMIN_DISPLAYNAME = 'Admin'
-  ADMIN_PASSWORD = '1234567'
+  
   mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '$WORDPRESS_DB'.'wp_users' ('ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_status', 'display_name') VALUES ('666' ,'$ADMIN_USER_NAME', MD5('$ADMIN_PASSWORD'), '$ADMIN_NICENAME', '$ADMIN_EMAIL', '0', '$ADMIN_DISPLAYNAME');"
   mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '$WORDPRESS_DB'.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}');"
   mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '$WORDPRESS_DB'.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_user_level', '10');"
   
  # We need to create user and activate Wordpress here!
  
- WP_ADMIN_PATH = '' # http://www.example.com/wp-admin
+ WP_ADMIN_PATH="blabla" # http://www.example.com/wp-admin
 
  # We need to get 
 
