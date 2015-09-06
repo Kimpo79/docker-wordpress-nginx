@@ -30,6 +30,16 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   unzip -o nginx-helper.*.zip -d /usr/share/nginx/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/nginx-helper
 
+  # Download Yoast SEO plugin
+  curl -O `curl -i -s https://wordpress.org/plugins/wordpress-seo/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
+  unzip -o wordpress-seo.*.zip -d /usr/share/wordpress-seo/www/wp-content/plugins
+  chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/wordpress-seo
+
+    # Download Infinite WP plugin
+  curl -O `curl -i -s https://wordpress.org/plugins/iwp-client/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
+  unzip -o wordpress-seo.*.zip -d /usr/share/iwp-client/www/wp-content/plugins
+  chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/iwp-client
+
   # Activate nginx plugin once logged in
   cat << ENDL >> /usr/share/nginx/www/wp-config.php
 \$plugins = get_option( 'active_plugins' );
