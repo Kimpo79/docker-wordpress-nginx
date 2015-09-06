@@ -35,10 +35,17 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   unzip -o wordpress-seo.*.zip -d /usr/share/nginx/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/wordpress-seo
 
-    # Download Infinite WP plugin
+  # Download Infinite WP plugin
   curl -O `curl -i -s https://wordpress.org/plugins/iwp-client/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
   unzip -o iwp-client.zip -d /usr/share/nginx/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/iwp-client
+
+  # Download Related posts plugin
+  curl -O `curl -i -s   https://wordpress.org/plugins/related-posts/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
+  unzip -o related-posts.*.zip -d /usr/share/nginx/www/wp-content/plugins
+  chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/related-posts
+
+
 
   # Activate nginx plugin once logged in
   cat << ENDL >> /usr/share/nginx/www/wp-config.php
@@ -48,7 +55,8 @@ if ( count( \$plugins ) === 0 ) {
   \$pluginsToActivate = array( 
     'nginx-helper/nginx-helper.php',
     'wordpress-seo/wp-seo.php',
-    'iwp-client/init.php');
+    'iwp-client/init.php',
+    'related-posts/init.php');
   foreach ( \$pluginsToActivate as \$plugin ) {
     if ( !in_array( \$plugin, \$plugins ) ) {
       activate_plugin( '/usr/share/nginx/www/wp-content/plugins/' . \$plugin );
@@ -61,7 +69,27 @@ ENDL
 
   mysqladmin -u root password $MYSQL_PASSWORD
   mysql -uroot -p$MYSQL_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -uroot -p$MYSQL_PASSWORD -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WORDPRESS_PASSWORD'; FLUSH PRIVILEGES;"
+  mysql -uroot -p$MYSQL_PASSWORD -e "CREATE DATABASE " + $WORDPRESS_DB +"; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WORDPRESS_PASSWORD'; FLUSH PRIVILEGES;"
+  
+  # Let's create an initial Admin user
+  ADMIN_EMAIL = 'kim.hildeqvist@gmail.com'
+  ADMIN_USER_NAME = 'Admin'
+  ADMIN_NICENAME = 'admin'
+  ADMIN_DISPLAYNAME = 'Admin'
+  ADMIN_PASSWORD = '1234567'
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '" + $WORDPRESS_DB +"'.'wp_users' ('ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_status', 'display_name') VALUES ('666' ,'" + $ADMIN_USER_NAME + "', MD5('" + $ADMIN_PASSWORD + "'), '" + $ADMIN_NICENAME + "', '" + $ADMIN_EMAIL + "', '0', '" + $ADMIN_DISPLAYNAME + "');"
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '" + $WORDPRESS_DB +"'.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}');"
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO '" + $WORDPRESS_DB +"'.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_user_level', '10');"
+  
+ # We need to create user and activate Wordpress here!
+ 
+ WP_ADMIN_PATH = '' # http://www.example.com/wp-admin
+
+ # We need to get 
+
+  # IWP_ACTIVATIONKEY= mysql -uroot -p$MYSQL_PASSWORD -e "SELECT option_value FROM wp_options WHERE option_name = 'iwp_client_activate_key'"
+  # echo $IWP_ACTIVATIONKEY
+  # We need to echo out 
   killall mysqld
 fi
 
