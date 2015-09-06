@@ -37,7 +37,7 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
 
     # Download Infinite WP plugin
   curl -O `curl -i -s https://wordpress.org/plugins/iwp-client/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
-  unzip -o wordpress-seo.*.zip -d /usr/share/iwp-client/www/wp-content/plugins
+  unzip -o iwp-client.zip -d /usr/share/iwp-client/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/iwp-client
 
   # Activate nginx plugin once logged in
@@ -45,7 +45,7 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
 \$plugins = get_option( 'active_plugins' );
 if ( count( \$plugins ) === 0 ) {
   require_once(ABSPATH .'/wp-admin/includes/plugin.php');
-  \$pluginsToActivate = array( 'nginx-helper/nginx-helper.php' );
+  \$pluginsToActivate = array( 'nginx-helper/nginx-helper.php','wordpress-seo/wp-seo.php','iwp-client/init.php');
   foreach ( \$pluginsToActivate as \$plugin ) {
     if ( !in_array( \$plugin, \$plugins ) ) {
       activate_plugin( '/usr/share/nginx/www/wp-content/plugins/' . \$plugin );
