@@ -80,9 +80,9 @@ ENDL
   
   # Let's create an initial Admin user
   
-  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.'wp_users' ('ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_status', 'display_name') VALUES ('666' ,'$ADMIN_USER_NAME', MD5('$ADMIN_PASSWORD'), '$ADMIN_NICENAME', '$ADMIN_EMAIL', '0', '$ADMIN_DISPLAYNAME');"
-  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}');"
-  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.'wp_usermeta' ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_user_level', '10');"
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.wp_users ('ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_status', 'display_name') VALUES ('666' ,'$ADMIN_USER_NAME', MD5('$ADMIN_PASSWORD'), '$ADMIN_NICENAME', '$ADMIN_EMAIL', '0', '$ADMIN_DISPLAYNAME');"
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.wp_usermeta ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}');"
+  mysql -uroot -p$MYSQL_PASSWORD -e "INSERT INTO $WORDPRESS_DB.wp_usermeta ('umeta_id', 'user_id', 'meta_key', 'meta_value') VALUES (NULL, '666', 'wp_user_level', '10');"
   
  # We need to create user and activate Wordpress here!
  
