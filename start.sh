@@ -72,7 +72,7 @@ ENDL
   mysql -uroot -p$MYSQL_PASSWORD -e "CREATE DATABASE " + $WORDPRESS_DB +"; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WORDPRESS_PASSWORD'; FLUSH PRIVILEGES;"
   
   # Let's create an initial Admin user
-  ADMIN_EMAIL = 'kim.hildeqvist@gmail.com'
+  ADMIN_EMAIL = 'hello@test12321.com'
   ADMIN_USER_NAME = 'Admin'
   ADMIN_NICENAME = 'admin'
   ADMIN_DISPLAYNAME = 'Admin'
