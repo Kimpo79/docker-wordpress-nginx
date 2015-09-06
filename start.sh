@@ -32,7 +32,7 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
 
   # Download Yoast SEO plugin
   curl -O `curl -i -s https://wordpress.org/plugins/wordpress-seo/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
-  unzip -o wordpress-seo.*.zip -d /usr/share/nginx/wordpress-seo/www/wp-content/plugins
+  unzip -o wordpress-seo.*.zip -d /usr/share/nginx/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/wordpress-seo
 
     # Download Infinite WP plugin
